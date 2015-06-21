@@ -1,4 +1,4 @@
-	var db =require('./db'),
+var db =require('./db'),
 	express = require('express'),
 	path = require('path'),
 	app = express(),
