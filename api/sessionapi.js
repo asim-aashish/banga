@@ -42,6 +42,19 @@ var SessionApi = function(){};
 			}
 		});
 	}
+	SessionApi.prototype.destroySession = function(session_id, callback){
+		if (!session_id) {
+			return callback(new Error('Session_id is null, no session_id sent'));
+		}
+		Session.remove({ session_id: session_id }, function(err) {
+			if (!err) {
+					return callback(new Error("Error in removing session_id document"));
+			}
+			else {
+				return callback(null);
+			}
+		});
+	}
 module.exports.SessionApi = exports.SessionApi = new SessionApi;
 
 

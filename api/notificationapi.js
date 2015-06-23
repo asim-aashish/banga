@@ -16,14 +16,9 @@ NotificationApi.prototype.CreateNotification = function(req, res, next) {
 		if(err){next(err);}
 		else{
 			if(data.status === "pending"||data.status ==="done"){
-				var notificationData ={
-					author : user,
-					mainbody : if(data.status ==="pending"){user + " wants to get your opportunity"}
-					else if(data.status ==="done"){"your order with "+user+" is now complete"},
-					type : data.status,
-					created_at : (new Date()).toDateString(),
-				}
-				Notification.create(notificationData, function(err){
+				data.author = user,
+				data.mainbody = (data.status ==="pending")?(user + " wants to get your opportunity"):("your order with "+user+" is now complete");
+				Notification.create(data, function(err){
 					if (err){
 						console.log('Notification creation:Failed with data: '+notificationData);
 						next(err);

@@ -7,6 +7,7 @@ var User = new Schema({
 	email: { type: String, required: true, unique:true },
 	password: String,
 	created_at: Date,
+	notification_no: Number,
 	modified_at: { type: Date, default: Date.now},
 });
 
