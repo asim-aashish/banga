@@ -1,6 +1,5 @@
 var fs = require('fs');
 var mongoose = require('mongoose');
-
 //register all models
 var models = fs.readdirSync('./models');
 models.forEach(function(model) {
@@ -9,7 +8,6 @@ models.forEach(function(model) {
 });
 
 var url = (process.env.NODE_ENV === 'production') ?  process.env.MONGOLAB_URI: 'mongodb://localhost/banga';
-
 var db = mongoose.connection;
 mongoose.connect(url);
 
