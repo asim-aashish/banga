@@ -8,19 +8,18 @@ models.forEach(function(model) {
 });
 
 var url = (process.env.NODE_ENV === 'production') ?  process.env.MONGOLAB_URI: 'mongodb://localhost/banga';
-var db = mongoose.connection;
-mongoose.connect(url);
 
 console.log('Connecting to DB...');
 
 var dbConnectionPromise = new Promise(function(resolve, reject){
-	db.on('error', function(err){
-		console.log('DB:Connect Error.', err);
+	mongoose.connect(url, function (err, res) {
+	  if (err) {
+	    console.log ('ERROR connecting to: ' + url + '. ' + err);
 		reject(err);
-	});
-	db.once('open', function(){
-		console.log('DB:Connect Successful.');
+	  } else {
+	    console.log ('Succeeded connected to: ' + url);
 		resolve('connected');
+	  }
 	});
 });
 
