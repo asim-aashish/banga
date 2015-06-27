@@ -7,7 +7,7 @@ models.forEach(function(model) {
 	console.log('model: ' + model + ' loaded');
 });
 
-var url = (process.env.NODE_ENV === 'production') ?  process.env.MONGOLAB_URI: 'mongodb://localhost/banga';
+var url = process.env.MONGOLAB_URI || 'mongodb://localhost/banga';
 
 console.log('Connecting to DB...');
 
