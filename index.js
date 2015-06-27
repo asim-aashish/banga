@@ -18,7 +18,7 @@ var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY;
 var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY;
 var S3_BUCKET = process.env.S3_BUCKET;
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 3030));
 
 app.listen(app.get('port'), function() {
   console.log("Node app is running on port:" + app.get('port'));

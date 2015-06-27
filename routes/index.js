@@ -4,10 +4,6 @@ var router = require('./routes'),
 
 module.exports = function (app){
 	//app.use(isLogInMiddleware)
-	app.get('/',function (req,res, next) {
-		res.send('lala');
-	});
-	
 	app.use('/', router);
 	app.use(ErrorHandler);
 };

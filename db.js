@@ -10,16 +10,17 @@ models.forEach(function(model) {
 var url = process.env.MONGOLAB_URI || 'mongodb://localhost/banga';
 
 console.log('Connecting to DB...');
+var db = mongoose.connection;
+mongoose.connect(url);
 
-var dbConnectionPromise = new Promise(function(resolve, reject){
-	mongoose.connect(url, function (err, res) {
-	  if (err) {
-	    console.log ('ERROR connecting to: ' + url + '. ' + err);
+var promise = new Promise(function(resolve, reject){
+	db.on('error', function(err){
+		console.log('DB:Connect Error.', err);
 		reject(err);
-	  } else {
-	    console.log ('Succeeded connected to: ' + url);
+	});
+	db.once('open', function(){
+		console.log('DB:Connect Successful.');
 		resolve('connected');
-	  }
 	});
 });
 
