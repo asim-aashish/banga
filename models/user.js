@@ -5,10 +5,10 @@ var User = new Schema({
 	contact_no: { type:Number, required: true, unique:true },
 	username: { type: String, required: true, unique: true },
 	email: { type: String, required: true, unique:true },
-	password: String,
-	created_at: Date,
-	notification_no: Number,
-	modified_at: { type: Date, default: Date.now},
+	password: {type:String},
+	notification_no: {type:Number, default:0},
+	created_on: {type:String},
+	modified_at: { type: String},
 });
 
 module.exports = mongoose.model('User', User);
