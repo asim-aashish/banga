@@ -5,10 +5,10 @@ var mongoose = require('mongoose');
 var models = fs.readdirSync('./models');
 models.forEach(function(model) {
 	require('./models/' + model);
-	console.log('model: ' + model + ' loaded')
+	console.log('model: ' + model + ' loaded');
 });
 
-var url = 'mongodb://localhost/banga'
+var url = (process.env.NODE_ENV === 'production') ?  process.env.MONGOLAB_URI: 'mongodb://localhost/banga';
 
 var db = mongoose.connection;
 mongoose.connect(url);
@@ -21,7 +21,7 @@ var dbConnectionPromise = new Promise(function(resolve, reject){
 		reject(err);
 	});
 	db.once('open', function(){
-		console.log('DB:Connect Successful.')
+		console.log('DB:Connect Successful.');
 		resolve('connected');
 	});
 });
