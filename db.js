@@ -13,7 +13,7 @@ console.log('Connecting to DB...');
 var db = mongoose.connection;
 mongoose.connect(url);
 
-var promise = new Promise(function(resolve, reject){
+var dbConnectionPromise = new Promise(function(resolve, reject){
 	db.on('error', function(err){
 		console.log('DB:Connect Error.', err);
 		reject(err);
