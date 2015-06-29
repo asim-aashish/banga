@@ -48,6 +48,7 @@ Userroute.prototype.doUserLogin = function(req, res, next){
 	User.findOne({contact_no: data.contact_no}, function(err, doc) {
 		if (err) {return next(err);}
 		else {
+			doc.lastlogin = (new Date()).valueOf().toString();
 			console.log(doc);
 			if(doc.password === data.password){
 				SessionApi.startSession(doc.username, function(err,sessionbox){

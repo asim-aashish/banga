@@ -4,13 +4,11 @@ var PostApi = function () {};
 
 PostApi.prototype.findMainPosts = function(session_id, callback){
 	if(session_id){
-		Post.find({}).limit(15).sort({_id:-1}).exec(function (err, docs) {
-					if(err) {callback(err, null);}
+		Post.find({}).limit(50).sort({_id:-1}).exec(function (err, docs) {
+					if(err) {return callback(err, null);}
+					if(!docs){return callback (new Error('no posts found'), null);}
 					var Posts = docs;
-					console.log('Displaying Main Page');
-					for (var i = 0; i < docs.length; i++) {
-						Posts[i].created_at = Date.parse(Posts[i].created_at);
-					}
+					console.log('Displaying Main Page'+Posts);
 					callback(null,Posts);
 				});
 	}

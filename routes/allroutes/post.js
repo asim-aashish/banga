@@ -82,12 +82,13 @@ Postroute.prototype.postaPost = function (req, res, next) {
 		else{
 			data.author = user;
 			console.log('initiating posting for user: '+ data.author);
-			Post.create(data, function(err){
+			Post.create(data, function(err, datapost){
 			if (err){return next(err);}
 			else{
 				console.log('Post creation:Success for user :'+ data.author);
 				res.json([{
-					status:"ok"
+					status:"ok",
+					post_id:datapost._id,
 				}]);
 				next();
 			}
@@ -105,6 +106,7 @@ Postroute.prototype.getProfilebySessionId = function (req, res, next) {
 		else{
 			Post.find({author:user}, function (err, docs) {
 				if(err) {return next(err);}
+				if(!docs){return next(new Error('no post found for user: '+author));}
 				console.log('Displaying Posts written by Main user : '+user);
 				var Posts = docs;
 				Posts.sort({created_at:-1});
@@ -126,7 +128,15 @@ Postroute.prototype.displayMainPage = function(req, res, next){
 		else{
 			PostApi.findMainPosts(data.session_id, function(err,docs){
 				if(err){return next(err);}
+				if(!docs){return next(new Error("No posts found"));}
 				res.json(docs);
+				User.findOne({username:user},function(err, doc){
+					doc.lastdmpgreq = (new Date()).valueOf().toString();
+					doc.save(function(err){
+						if(err){console.log('doc.lastdmpgrt can\'t be saved');}
+						console.log('doc.lastdmpdrt: '+doc.lastdmpgreq);
+					});
+				});
 				next();
 			});
 		}
