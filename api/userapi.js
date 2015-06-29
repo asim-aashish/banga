@@ -5,7 +5,6 @@ var UserApi = function (){};
 
 UserApi.prototype.ValidateSignUp =function(data,callback){
 	var USER_RE = /^[a-zA-Z0-9_-]{3,20}$/;
-	var PASS_RE = /^.{3,20}$/;
 	var EMAIL_RE = /^[\S]+@[\S]+\.[\S]+$/;
 	if (data.email !== "") {
 		if (!EMAIL_RE.test(data.email)) {
@@ -17,17 +16,7 @@ UserApi.prototype.ValidateSignUp =function(data,callback){
 					return callback(new Error("User name must be greater than 3 letters and less than 20"), false);
 				}
 				else{
-					if(data.password!==""){
-						if (!PASS_RE.test(data.password)) {
-							return callback(new Error("Password must be greater than 3 letters and less than 20"), false);
-						}
-						else {
-							return callback(null ,true);
-						}
-					}
-					else{
-						return callback(new Error("password is null"), false);
-					}
+					return callback(null ,true);
 				}
 			}
 			else{

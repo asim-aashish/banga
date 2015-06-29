@@ -50,7 +50,7 @@ Postroute.prototype.getPostsbyId = function(req, res, next){
 	SessionApi.checkSessionId(data.session_id, function(err, user){
 		if(err){return next(err);}
 		else{
-			Post.findOne(data.post_id, function (err, doc) {
+			Post.findById(data.post_id, function (err, doc) {
 				if(err) {return next(err);}
 				console.log('Displaying Post for :id :'+data.post_id);
 				var Posts = doc;
@@ -74,7 +74,7 @@ Postroute.prototype.postaPost = function (req, res, next) {
 			expiry_time: req.body.expiry_time,
 			modified_at: (new Date()).valueOf().toString(),
 		};
-	console.log("created at"+data.createdat);
+	console.log("created at"+data.created_on);
 	console.log("data.expiry_date: "+data.expiry_time+"data.expiry_time: "+data.expiry_time);
 	console.log("checking session_id: " + req.headers.session_id);
 	SessionApi.checkSessionId(req.headers.session_id, function(err, user){

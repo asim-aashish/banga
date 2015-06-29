@@ -42,6 +42,9 @@ Userroute.prototype.doUserLogin = function(req, res, next){
 		contact_no: req.body.mobileno,
 		password: req.body.password,
 	};
+	if(data.contact_no === null || data.password === null){
+		return next(new Error('mobile no or password is null'));
+	}
 	User.findOne({contact_no: data.contact_no}, function(err, doc) {
 		if (err) {return next(err);}
 		else {

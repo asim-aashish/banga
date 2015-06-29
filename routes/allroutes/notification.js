@@ -3,7 +3,7 @@ var Notification = require('mongoose').model('Notification'),
 	Post = require('mongoose').model('Post'),
 	SessionApi = require('./../../api/sessionapi').SessionApi;
 var Notificationroute = function () {};
-Notificationroute.prototype.CreateNotification = function(req, res, next) {
+Notificationroute.prototype.CreateNotificationforred = function(req, res, next) {
 	var data ={
 		post_id : req.body.post_id,
 		status : req.body.status,
@@ -14,19 +14,18 @@ Notificationroute.prototype.CreateNotification = function(req, res, next) {
 	SessionApi.checkSessionId(req.headers.session_id, function(err, user){
 		if(err){return next(err);}
 		data.setter = user;
-		if(data.status === "red"||data.status ==="orange"||data.status ==="green"&&data.post_id!==""){
-			Post.findById(data.post_id, function(err, doc){
-				if(err) {return next(err);}
-				data.getter = doc.author;
-				User.findOne({username:data.setter},function(err, doc){
-					if(err){return next(err);}
-					res.json([doc]);
-				});
-				if(data.status ==="red"){
+			if(data.status ==="red"){
+				Post.findById(data.post_id, function(err, doc){
+					if(err) {return next(err);}
+					data.getter = doc.author;
+					User.findOne({username:data.setter},function(err, doc){
+						if(err){return next(err);}
+						res.json([doc]);
+					});
 					data.mainbody = data.setter + " wants to get your opportunity";
 					Notification.create(data, function(err){
 						if (err){
-							console.log('Notification creation:Failed with data: '+data);
+							console.log('Notification creation:Failed with data: '+ data);
 							return next(err);
 						}
 						else{
@@ -39,20 +38,12 @@ Notificationroute.prototype.CreateNotification = function(req, res, next) {
 							});
 						}
 					});
-				}
-				if(data.status ==="orange"){
-					data.mainbody ="You received the order from "+data.setter;
-				}
-				if(data.status ==="green"){
-					data.mainbody ="Your order with "+data.setter+" is now complete";
-				}
 				console.log("got data from req: "+data.setter+data.getter+data.status+data.post_id);
-			});
-		}
-		else{
-			console.log("data status is " + data.status + "which is not equal to 'pending' or 'done'");
-			next(new Error("data status is " + data.status + "which is not equal to 'pending' or 'done'"));
-		}
+				});
+			}
+			else{
+				next(new Error('data.status is not set right'));
+			}
 	});
 };
 Notificationroute.prototype.showNotifications = function(req, res, next){

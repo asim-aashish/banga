@@ -7,6 +7,7 @@ var Notification = new Schema({
 	mainbody:{type:String, required: true},
 	status: {type: String, required:true},
 	post_id:{type: String, required:true},
+	show:{type:Boolean ,required:true,default:true},
 	created_on: {type:String},
 });
 
